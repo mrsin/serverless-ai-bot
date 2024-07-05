@@ -88,7 +88,7 @@ bot.on("voice", async ctx => {
           //"Content-Type": "audio/ogg; codec=opus",
           "Authorization": "Bearer " + process.env.AIM_TOKEN,
         },        
-        data: voiceData
+        data: buffer
       });
   ctx.reply(await voice.text());
   // TODO: проблема, возвращает {"error_code":"BAD_REQUEST","error_message":"audio should be not empty"}
