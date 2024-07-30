@@ -21,6 +21,9 @@ async function YandexGPT(system, user) {
       ]
     }),
   });
+  if (!response.ok) {
+    return "У нас проблема " + await response.text();  
+  }
   const json = await response.json();
   return json.result.alternatives[0].message.text;
 }
@@ -43,7 +46,7 @@ bot.on('text', async function(ctx) {
 bot.on("voice", async ctx => {
   const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id);
   let response = await fetch(link.href);
-  const buffer = await response.arrayBuffer();
+  let buffer = await response.arrayBuffer();
   response = await fetch("https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?folderId=" + process.env.FOLDER_ID + "&lang=ru-RU&topic=general",
     {
       method: 'POST',
@@ -53,8 +56,27 @@ bot.on("voice", async ctx => {
       },        
       body: buffer
     });
+  if (!response.ok) {
+    return ctx.reply("У нас проблема " + await response.text());  
+  }
   const json = await response.json();
-  ctx.reply(await YandexGPT("Ответь весело", json.result));
+
+  const reply = await YandexGPT("Ответь весело", json.result);
+  
+  response = await fetch("https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize?folderId=" + process.env.FOLDER_ID,
+    {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Bearer " + process.env.AIM_TOKEN
+      },        
+      body: "lang=ru-RU&voice=jane&text=" + encodeURI(reply)
+    });
+  if (!response.ok) {
+    return ctx.reply("У нас проблема " + await response.text());  
+  }
+  buffer = await response.arrayBuffer();
+  ctx.replyWithVoice({source: Buffer.from(buffer)});
 });
 
 module.exports.handler = async function (event, context) {
