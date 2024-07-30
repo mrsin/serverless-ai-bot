@@ -30,9 +30,9 @@ async function YandexGPT(system, user) {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.start((ctx) => ctx.reply(`Привет! \nЯ бессервеный ИИ Бот\nРаботаю в облаке Яндекс.`))
+bot.start((ctx) => ctx.reply(`Привет! \nЯ бессерверный ИИ Бот\nРаботаю в облаке Яндекс.`))
 
-bot.help((ctx) => ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на вопросы, переводить тексты, отвечать на голосовые сообщения`))
+bot.help((ctx) => ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на вопросы, переводить тексты, отвечать на голосовые сообщения.`))
 
 bot.command('translate', async function(ctx) {
   ctx.reply(await YandexGPT("Переведи на английский", ctx.update.message.text));
