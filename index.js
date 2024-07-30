@@ -2,24 +2,24 @@ const { Telegraf } = require('telegraf');
 
 async function YandexGPT(system, user) {
   const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + process.env.AIM_TOKEN,
-        "x-folder-id": process.env.FOLDER_ID
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + process.env.AIM_TOKEN,
+      "x-folder-id": process.env.FOLDER_ID
+    },
+    body: JSON.stringify({
+      "modelUri": "gpt://" + process.env.FOLDER_ID + "/yandexgpt-lite",
+      "completionOptions": {
+        "stream": false,
+        "temperature": 0.1,
+        "maxTokens": "1000"
       },
-      body: JSON.stringify({
-        "modelUri": "gpt://" + process.env.FOLDER_ID + "/yandexgpt-lite",
-        "completionOptions": {
-          "stream": false,
-          "temperature": 0.1,
-          "maxTokens": "1000"
-        },
-        "messages": [
-          {"role": "system", "text": system},
-          {"role": "user", "text": user}
-        ]
-      }),
+      "messages": [
+        {"role": "system", "text": system},
+        {"role": "user", "text": user}
+      ]
+    }),
   });
   const json = await response.json();
   return json.result.alternatives[0].message.text;
@@ -42,27 +42,19 @@ bot.on('text', async function(ctx) {
 
 bot.on("voice", async ctx => {
   const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id);
-  const response = await fetch(link.href);
-  if (!response.ok) {
-    ctx.reply("У нас проблема " + await response.text());
-    return;
-  }
+  let response = await fetch(link.href);
   const buffer = await response.arrayBuffer();
-  const voice = await fetch("https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?folderId=" + process.env.FOLDER_ID + "&lang=ru-RU&topic=general",
+  response = await fetch("https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?folderId=" + process.env.FOLDER_ID + "&lang=ru-RU&topic=general",
     {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/octet-stream",
-          "Authorization": "Bearer " + process.env.AIM_TOKEN,
-        },        
-        body: buffer
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/octet-stream",
+        "Authorization": "Bearer " + process.env.AIM_TOKEN,
+      },        
+      body: buffer
     });
-  if (!voice.ok) {
-    ctx.reply("У нас проблема " + await voice.text());
-    return;  
-  }
-  const json2 = await voice.json();
-  ctx.reply(await YandexGPT("Ответь весело", json2.result));
+  const json = await response.json();
+  ctx.reply(await YandexGPT("Ответь весело", json.result));
 });
 
 module.exports.handler = async function (event, context) {
