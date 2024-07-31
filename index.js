@@ -1,11 +1,13 @@
 const { Telegraf } = require('telegraf');
 
+let AIM_TOKEN = null;
+
 async function YandexGPT(system, user) {
   const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + process.env.AIM_TOKEN,
+      "Authorization": "Bearer " + AIM_TOKEN,
       "x-folder-id": process.env.FOLDER_ID
     },
     body: JSON.stringify({
@@ -52,7 +54,7 @@ bot.on("voice", async ctx => {
       method: 'POST',
       headers: {
         "Content-Type": "application/octet-stream",
-        "Authorization": "Bearer " + process.env.AIM_TOKEN,
+        "Authorization": "Bearer " + AIM_TOKEN,
       },        
       body: buffer
     });
@@ -68,7 +70,7 @@ bot.on("voice", async ctx => {
       method: 'POST',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer " + process.env.AIM_TOKEN
+        "Authorization": "Bearer " + AIM_TOKEN
       },        
       body: "lang=ru-RU&voice=jane&text=" + encodeURI(reply)
     });
@@ -81,6 +83,7 @@ bot.on("voice", async ctx => {
 
 module.exports.handler = async function (event, context) {
     const message = JSON.parse(event.body);
+    AIM_TOKEN = context.token.access_token;
     await bot.handleUpdate(message);
     return {
         statusCode: 200,
