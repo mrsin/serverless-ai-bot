@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: for-serverless-ai-bot
+  version: 1.0.0
+servers:
+- url: https://d5dlco8bnnshh9eeda53.apigw.yandexcloud.net
+paths:
+  /sayhello.png:
+    get:
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: jsbot
+        object: sayhello.png
+        presigned_redirect: false
+        service_account_id: ajeptp6p5i2o1vpt5a1l
+      operationId: static
+  /fshtb-function:
+    post:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: d4eqo5ib635ben49bgca
+      operationId: fshtb-function
