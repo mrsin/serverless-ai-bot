@@ -2,7 +2,7 @@
 const { Telegraf } = require('telegraf');
 
 // Переменная для хранения идентификатора Identity and Access Management облака Яндекс
-let AIM_TOKEN = null;
+let IAM_TOKEN = null;
 
 // Функция для запроса в YandexGPT
 async function YandexGPT(system, user) {
@@ -10,7 +10,7 @@ async function YandexGPT(system, user) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + AIM_TOKEN,
+      'Authorization': 'Bearer ' + IAM_TOKEN,
       'x-folder-id': process.env.FOLDER_ID
     },
     body: JSON.stringify({
@@ -85,7 +85,7 @@ bot.on(
       method: 'POST',
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Authorization': 'Bearer ' + AIM_TOKEN,
+        'Authorization': 'Bearer ' + IAM_TOKEN,
       },        
       body: buffer
     });
@@ -103,7 +103,7 @@ bot.on(
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + AIM_TOKEN
+        'Authorization': 'Bearer ' + IAM_TOKEN
       },        
       body: 'lang=ru-RU&voice=jane&text=' + encodeURI(reply)
     });
