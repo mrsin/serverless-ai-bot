@@ -7,22 +7,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 // Назначаем обработчик старта диалога с ботом
 bot.start(
   function(ctx) {
-    ctx.reply(`Привет! Я бессерверный эхо Бот.\nРаботаю в облаке Яндекс.`);
-  }
-);
-
-// Назначаем обработчик каманды /help
-bot.help(
-  function(ctx) {
-    ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ простой эхо бот.`);
-  }
-);    
-
-// Назначаем обработчик текстового сообщения
-bot.on(
-  'text',
-  async function(ctx) {
-    ctx.reply(ctx.update.message.text));
+    ctx.reply(`Привет! Я бессерверный Бот.\nРаботаю в облаке Яндекс.`);
   }
 );
 
