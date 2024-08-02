@@ -85,54 +85,6 @@ bot.on(
   }
 );
 
-// Назначаем обработчик голосового сообщения
-bot.on(
-  'voice',
-  async function (ctx) {
-    // Загружаем в память файл глосового сообщения с сервера Telegram
-    const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id);
-    let response = await fetch(link.href);
-    let buffer = await response.arrayBuffer();
-
-    // Отправляем его на сервер Yandex Speech Kit для распознавания голоса и перевода в текст
-    response = await fetch('https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?folderId=' +
-      process.env.FOLDER_ID + '&lang=ru-RU&topic=general',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Authorization': 'Bearer ' + IAM_TOKEN,
-      },        
-      body: buffer
-    });
-    if (!response.ok) {
-      return ctx.reply('У нас проблема ' + await response.text());  
-    }
-    const json = await response.json();
-
-    // Передаем полученный текст Yandex GPT
-    const reply = await YandexGPT('Ответь весело', json.result);
-
-    // Отправляем ответ на сервер Yandex Speech Kit для синтеза речи
-    response = await fetch('https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize?folderId=' + process.env.FOLDER_ID,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + IAM_TOKEN
-      },        
-      body: 'lang=ru-RU&voice=jane&text=' + encodeURI(reply)
-    });
-    if (!response.ok) {
-      return ctx.reply('У нас проблема ' + await response.text());  
-    }
-    buffer = await response.arrayBuffer();
-
-    // Отвечаем голосом
-    ctx.replyWithVoice({source: Buffer.from(buffer)});
-  }
-);
-
 // Экспортируем обработчик веб-хука бота Telegram
 module.exports.handler = async function (event, context) {
     const message = JSON.parse(event.body);
