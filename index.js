@@ -50,6 +50,22 @@ bot.help(
   }
 );    
 
+// Назначаем обработчик каманды /eval
+bot.command(
+  'eval',
+  function(ctx) {
+    ctx.reply(eval(ctx.update.message.text));
+  }
+);
+
+// Назначаем обработчик каманды /image
+bot.command(
+  'image',
+  function(ctx) {
+    ctx.replyWithPhoto({url: 'https://d5dlco8bnnshh9eeda53.apigw.yandexcloud.net/sayhello.png'});
+  }
+);
+
 // Назначаем обработчик каманды /translate
 bot.command(
   'translate',
