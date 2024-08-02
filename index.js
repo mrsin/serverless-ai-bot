@@ -113,23 +113,8 @@ bot.on(
     // Передаем полученный текст Yandex GPT
     const reply = await YandexGPT('Ответь весело', json.result);
 
-    // Отправляем ответ на сервер Yandex Speech Kit для синтеза речи
-    response = await fetch('https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize?folderId=' + process.env.FOLDER_ID,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + IAM_TOKEN
-      },        
-      body: 'lang=ru-RU&voice=jane&text=' + encodeURI(reply)
-    });
-    if (!response.ok) {
-      return ctx.reply('У нас проблема ' + await response.text());  
-    }
-    buffer = await response.arrayBuffer();
-
-    // Отвечаем голосом
-    ctx.replyWithVoice({source: Buffer.from(buffer)});
+    // Отвечаем
+    ctx.reply(reply);
   }
 );
 
