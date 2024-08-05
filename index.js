@@ -50,22 +50,6 @@ bot.help(
   }
 );    
 
-// Назначаем обработчик каманды /eval
-bot.command(
-  'eval',
-  function(ctx) {
-    ctx.reply(eval(ctx.update.message.text));
-  }
-);
-
-// Назначаем обработчик каманды /image
-bot.command(
-  'image',
-  function(ctx) {
-    ctx.replyWithPhoto({url: 'https://d5dlco8bnnshh9eeda53.apigw.yandexcloud.net/sayhello.png'});
-  }
-);
-
 // Назначаем обработчик каманды /translate
 bot.command(
   'translate',
@@ -136,7 +120,7 @@ bot.on(
 // Экспортируем обработчик веб-хука бота Telegram
 module.exports.handler = async function (event, context) {
     const message = JSON.parse(event.body);
-    AIM_TOKEN = context.token.access_token;
+    IAM_TOKEN = context.token.access_token;
     await bot.handleUpdate(message);
     return {
         statusCode: 200,
