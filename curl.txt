@@ -1,0 +1,5 @@
+curl \
+  --request POST \
+  --url https://api.telegram.org/bot7278336506:AAGDGblI20bsuInuzq6v2Nx56I_JFg2pmaY/setWebhook \
+  --header 'content-type: application/json' \
+  --data '{"url": "https://d5dlco8bnnshh9eeda53.apigw.yandexcloud.net/fshtb-function"}'
