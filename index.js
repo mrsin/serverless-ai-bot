@@ -1,9 +1,6 @@
 // Подключаем библиотеку для упрощения написания Telegram ботов
 const { Telegraf } = require('telegraf');
 
-// Переменная для хранения идентификатора Identity and Access Management облака Яндекс
-let IAM_TOKEN = null;
-
 // Создаём экземпляр объекта для общения с серверами Telegram, передаём идентификатор бота
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -17,7 +14,7 @@ bot.start(
 // Назначаем обработчик каманды /help
 bot.help(
   function(ctx) {
-    ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на вопросы, переводить тексты, отвечать на голосовые сообщения.`);
+    ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на команды \eval, \image и посылать обратно текст.`);
   }
 );    
 
