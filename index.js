@@ -43,18 +43,20 @@ bot.start(
   }
 );
 
-// Назначаем обработчик каманды /help
 bot.help(
   function(ctx) {
-    ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на вопросы, переводить тексты, отвечать на голосовые сообщения.`);
+    ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на команды /double X, /image, /translate Text и отвечать через YandexGPT.`);
   }
 );    
 
-// Назначаем обработчик каманды /eval
+// Назначаем обработчик каманды /double
 bot.command(
-  'eval',
+  'double',
   function(ctx) {
-    ctx.reply(eval(ctx.update.message.text));
+    // Преобразуем текст в число, умножаем на 2, сохраняем в переменную
+    let x = ctx.update.message.text.substring(8);
+    let result = parseInt(x) * 2; 
+    ctx.reply(result);
   }
 );
 
