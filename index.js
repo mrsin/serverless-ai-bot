@@ -11,7 +11,6 @@ bot.start(
   }
 );
 
-// Назначаем обработчик каманды /help
 bot.help(
   function(ctx) {
     ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на команды /double X, /image и посылать обратно текст.`);
@@ -23,7 +22,8 @@ bot.command(
   'double',
   function(ctx) {
     // Преобразуем текст в число, умножаем на 2, сохраняем в переменную
-    let result = parseInt(ctx.update.message.text) * 2; 
+    let x = ctx.update.message.text.substring(8);
+    let result = parseInt(x) * 2; 
     ctx.reply(result);
   }
 );
