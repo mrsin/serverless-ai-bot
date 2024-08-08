@@ -43,22 +43,14 @@ bot.start(
   }
 );
 
-// Назначаем обработчик каманды /help
+// Назначаем обработчик команды /help
 bot.help(
   function(ctx) {
     ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на вопросы, переводить тексты, отвечать на голосовые сообщения.`);
   }
 );    
 
-// Назначаем обработчик каманды /eval
-bot.command(
-  'eval',
-  function(ctx) {
-    ctx.reply(eval(ctx.update.message.text));
-  }
-);
-
-// Назначаем обработчик каманды /image
+// Назначаем обработчик команды /image
 bot.command(
   'image',
   function(ctx) {
@@ -66,7 +58,18 @@ bot.command(
   }
 );
 
-// Назначаем обработчик каманды /translate
+// Назначаем обработчик команды /double
+bot.command(
+  'double',
+  function(ctx) {
+    // Преобразуем текст в число, умножаем на 2, сохраняем в переменную
+    let x = ctx.update.message.text.substring(8);
+    let result = parseInt(x) * 2; 
+    ctx.reply(result);
+  }
+);
+
+// Назначаем обработчик команды /translate
 bot.command(
   'translate',
   async function(ctx) {
@@ -88,7 +91,7 @@ bot.on(
 // Экспортируем обработчик веб-хука бота Telegram
 module.exports.handler = async function (event, context) {
     const message = JSON.parse(event.body);
-    AIM_TOKEN = context.token.access_token;
+    IAM_TOKEN = context.token.access_token;
     await bot.handleUpdate(message);
     return {
         statusCode: 200,
