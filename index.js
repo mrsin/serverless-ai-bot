@@ -73,7 +73,9 @@ bot.command(
 bot.command(
   'translate',
   async function(ctx) {
-    ctx.reply(await YandexGPT('Переведи на английский', ctx.update.message.text));
+    // Отрезаем команду /translate и пробел
+    let x = ctx.update.message.text.substring(11);
+    ctx.reply(await YandexGPT('Переведи на английский', x));
   }
 );
 
