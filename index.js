@@ -43,6 +43,7 @@ bot.start(
   }
 );
 
+// Назначаем обработчик команды /help
 bot.help(
   function(ctx) {
     ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на команды /double X, /image, /translate Text.
@@ -50,7 +51,7 @@ bot.help(
   }
 );    
 
-// Назначаем обработчик каманды /double
+// Назначаем обработчик команды /double
 bot.command(
   'double',
   function(ctx) {
@@ -61,7 +62,7 @@ bot.command(
   }
 );
 
-// Назначаем обработчик каманды /translate
+// Назначаем обработчик команды /translate
 bot.command(
   'translate',
   async function(ctx) {
@@ -69,7 +70,7 @@ bot.command(
   }
 );
 
-// Назначаем обработчик каманды /image
+// Назначаем обработчик команды /image
 bot.command(
   'image',
   function(ctx) {
