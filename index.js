@@ -91,7 +91,7 @@ bot.on(
 // Экспортируем обработчик веб-хука бота Telegram
 module.exports.handler = async function (event, context) {
     const message = JSON.parse(event.body);
-    AIM_TOKEN = context.token.access_token;
+    IAM_TOKEN = context.token.access_token;
     await bot.handleUpdate(message);
     return {
         statusCode: 200,
