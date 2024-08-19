@@ -17,7 +17,7 @@ bot.help(
   }
 );    
 
-// Назначаем обработчик каманды /double
+// Назначаем обработчик команды /double
 bot.command(
   'double',
   function(ctx) {
@@ -28,7 +28,7 @@ bot.command(
   }
 );
 
-// Назначаем обработчик каманды /image
+// Назначаем обработчик команды /image
 bot.command(
   'image',
   function(ctx) {
