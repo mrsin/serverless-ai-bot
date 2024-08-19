@@ -11,6 +11,7 @@ bot.start(
   }
 );
 
+// Назначаем обработчик команды /help
 bot.help(
   function(ctx) {
     ctx.reply(`Привет, ${ctx.message.from.username}.\nЯ умею отвечать на команды /double X, /image и посылать обратно текст.`);
